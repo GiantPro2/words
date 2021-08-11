@@ -11,27 +11,31 @@ environment:
   flutter: ">=2.0.2"
 
 dependencies:
-  path_provider: ^2.0.1
-  just_audio: ^0.7.1
+  path_provider: ^2.0.2
+  just_audio: ^0.9.5
 
   flutter:
     sdk: flutter
+  #firebase_image: ^1.0.1
+  firebase_image:
+    git:
+      url: git://github.com/blinkin/firebase_image.git
+      ref: issue37_fix
   record: ^3.0.0
-  cupertino_icons: ^1.0.3
-  get: ^4.3.4
-  flutter_svg: ^0.22.0
-  animated_button: ^0.2.0
   sqflite: ^2.0.0+3
   path: ^1.8.0
-  fluttertoast: ^8.0.7
-  circular_countdown_timer: ^0.2.0
-  lottie: ^1.1.0
-  rflutter_alert: ^2.0.2
+  fluttertoast: ^8.0.8
   firebase_core: ^1.4.0
   cloud_firestore: ^2.4.0
-
-
-
+  rflutter_alert: ^2.0.4
+  lottie: ^1.1.0
+  circular_countdown_timer: ^0.2.0
+  animated_button: ^0.2.0
+  flutter_svg: ^0.22.0
+  get: ^4.3.5
+  cupertino_icons: ^1.0.3
+  url_launcher: ^6.0.9
+  audioplayers: ^0.18.0
 
 # The following section is specific to Flutter.
 flutter:
@@ -39,6 +43,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/lotte/
+    - assets/stop_msc/
   fonts:
     - family: RobotoMono
       fonts:

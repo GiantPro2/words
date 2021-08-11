@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_button/animated_button.dart';
 
 import 'package:words/const/images_name.dart';
@@ -11,6 +12,7 @@ import 'package:words/view_model/main_page_model.dart';
 
 import 'package:words/view/help_page.dart';
 import 'package:words/view/start_page.dart';
+import 'package:words/view_model/start_page_model.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   MainPageModel _viewModel = Get.put(MainPageModel());
+  StartPageModel _startViewModel = Get.put(StartPageModel());
 
   @override
   void initState() {
@@ -111,6 +114,7 @@ class _MainPageState extends State<MainPage> {
           );
         }
         if (title == 'Play') {
+          _startViewModel.getUserList();
           Get.offAll(
             () => StartPage(),
           );

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:animated_button/animated_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:words/const/images_name.dart';
@@ -14,6 +15,7 @@ import 'package:words/view/main_page.dart';
 import 'package:words/view/game_page.dart';
 import 'package:words/view_model/start_page_model.dart';
 import 'package:words/const/game_setting.dart';
+import 'package:words/view_model/game_page_model.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   String new_userName = '';
   StartPageModel _viewModel = Get.put(StartPageModel());
+  GamePageModel _gamePageViewModel = Get.put(GamePageModel());
 
   static const int numItems = 20;
   var allPlayers = [];
@@ -31,7 +34,7 @@ class _StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    _viewModel = Get.put(StartPageModel());
+    _viewModel.onInit();
     _viewModel.getUserList();
     super.initState();
   }
@@ -67,7 +70,7 @@ class _StartPageState extends State<StartPage> {
               ),
               DialogButton(
                 child: Text(
-                  "Yes",
+                  "OK",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 onPressed: () => Get.offAll(() => MainPage()),
@@ -94,10 +97,11 @@ class _StartPageState extends State<StartPage> {
             height: hp(100),
             width: wp(100),
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: ExactAssetImage(ImagesName.startBackImage),
-                fit: BoxFit.cover,
-              ),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: [0.2, 1],
+                  colors: [Colors.teal, Colors.green]),
             ),
           ),
           Column(
@@ -106,20 +110,14 @@ class _StartPageState extends State<StartPage> {
             children: [
               SizedBox(height: hp(15)),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: wp(70),
+                    width: wp(40),
                     child: TextField(
                       controller: nameTextControllor,
                       obscureText: false,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        filled: true,
-                        labelText: 'Enter name of player/team',
-                        fillColor: Colors.white,
-                      ),
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -148,6 +146,17 @@ class _StartPageState extends State<StartPage> {
                             type: AlertType.warning,
                             title: "Warning",
                             desc: "Insert the name!",
+                            buttons: [
+                              DialogButton(
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                                color: Colors.blueGrey,
+                              ),
+                            ],
                           ).show();
                         } else {
                           _viewModel.addUserName(new_userName);
@@ -161,11 +170,19 @@ class _StartPageState extends State<StartPage> {
                             buttons: [
                               DialogButton(
                                 child: Text(
-                                  "COOL",
+                                  "OK",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () {
+                                  setState(() {
+                                    _viewModel.getUserList();
+                                    selected = List<bool>.generate(
+                                        numItems, (int index) => false);
+                                    selectedPlayers.clear();
+                                  });
+                                  Navigator.pop(context);
+                                },
                                 width: 120,
                                 color: Colors.green,
                               )
@@ -176,8 +193,8 @@ class _StartPageState extends State<StartPage> {
                     },
                     shadowDegree: ShadowDegree.light,
                     color: Colors.green,
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                   ),
                 ],
               ),
@@ -211,12 +228,38 @@ class _StartPageState extends State<StartPage> {
                                 for (var user in selectedPlayers) {
                                   ids.add(user.id);
                                 }
+
                                 setState(() {
                                   _viewModel.deleteUser(ids);
                                   _viewModel.getUserList();
-                                  Navigator.pop(context);
                                   selectedPlayers.clear();
                                 });
+                                Alert(
+                                  context: context,
+                                  type: AlertType.success,
+                                  title: "Success",
+                                  desc: "Deleted successfully.",
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _viewModel.getUserList();
+                                          selected = List<bool>.generate(
+                                              numItems, (int index) => false);
+                                        });
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      width: 120,
+                                      color: Colors.green,
+                                    )
+                                  ],
+                                ).show();
                               },
                               color: Colors.red,
                             )
@@ -235,8 +278,16 @@ class _StartPageState extends State<StartPage> {
                       children: [
                         SizedBox(
                           width: wp(90),
-                          height: hp(50),
+                          height: hp(55),
                           child: Card(
+                            margin: EdgeInsets.all(10),
+                            color: Colors.green[100],
+                            shadowColor: Colors.blueGrey,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.green, width: 3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
                               child: _table(),
@@ -245,7 +296,38 @@ class _StartPageState extends State<StartPage> {
                         ),
                       ],
                     )
-                  : SizedBox(height: hp(50)),
+                  : SizedBox(
+                      height: hp(55),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Enter new player’s name',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontFamily: 'RobotoMono',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'or select from the list',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontFamily: 'RobotoMono',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              height: hp(40),
+                              width: wp(60),
+                              child:
+                                  Lottie.asset('assets/lotte/select-user.json'),
+                            ),
+                          ]),
+                    ),
               SizedBox(height: hp(2)),
               AnimatedButton(
                 child: Padding(
@@ -277,9 +359,19 @@ class _StartPageState extends State<StartPage> {
                       context: context,
                       type: AlertType.warning,
                       title: "Warning",
-                      desc: "A maximum of " +
+                      desc: "Up to " +
                           GameSetting.max_player_num.toString() +
-                          " players can participate!",
+                          " people can participate!",
+                      buttons: [
+                        DialogButton(
+                          child: Text(
+                            "OK",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          color: Colors.blueGrey,
+                        ),
+                      ],
                     ).show();
                   } else if (selectedPlayers.length < 2) {
                     Alert(
@@ -287,6 +379,16 @@ class _StartPageState extends State<StartPage> {
                       type: AlertType.warning,
                       title: "Warning",
                       desc: "There must be a minimum of 2 players!",
+                      buttons: [
+                        DialogButton(
+                          child: Text(
+                            "OK",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          color: Colors.blueGrey,
+                        ),
+                      ],
                     ).show();
                   } else {
                     print(selectedPlayers.length);
@@ -310,10 +412,11 @@ class _StartPageState extends State<StartPage> {
                         ),
                         DialogButton(
                           child: Text(
-                            "Yes",
+                            "OK",
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           onPressed: () {
+                            _gamePageViewModel.getWords();
                             Get.to(
                               () => GamePage(
                                 selectedPlayers: selectedPlayers,

@@ -19,15 +19,18 @@ class FinishPage extends StatefulWidget {
 }
 
 class _FinishPageState extends State<FinishPage> {
-  List scorelist = [];
+  List<ScoreModel> scorelist = [];
   List winnerNameList = [];
 
   @override
   void initState() {
     scorelist = widget.scorelist;
-    Map map = scorelist.asMap();
-    print(map);
+    // Map map = scorelist.asMap();
+    // print(map);
+    scorelist.sort((a, b) => b.score.compareTo(a.score));
     print(scorelist);
+
+    // list.sortedBy((it) => it.name);
     //map.sort((Map u1, Map u2) => u2['score'] - u1['score']);
 
     super.initState();
@@ -53,6 +56,8 @@ class _FinishPageState extends State<FinishPage> {
   }
 
   Widget _pageBody(context) {
+    scorelist.sort((a, b) => b.score.compareTo(a.score));
+    print(scorelist);
     Function wp = Screen(MediaQuery.of(context).size).wp;
     Function hp = Screen(MediaQuery.of(context).size).hp;
     return Scaffold(
@@ -91,7 +96,7 @@ class _FinishPageState extends State<FinishPage> {
               ),
             ),
             Text(
-              'Winner!',
+              scorelist[0].userName + ' !',
               style: TextStyle(
                 color: Colors.red,
                 fontFamily: 'RobotoMono',
@@ -104,6 +109,13 @@ class _FinishPageState extends State<FinishPage> {
               width: wp(80),
               height: hp(40),
               child: Card(
+                margin: EdgeInsets.all(10),
+                color: Colors.green[100],
+                shadowColor: Colors.blueGrey,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.green, width: 3),
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: DataTable(
@@ -114,7 +126,7 @@ class _FinishPageState extends State<FinishPage> {
                             'Name',
                             style: TextStyle(
                               fontSize: 23,
-                              color: Colors.white,
+                              color: Colors.blue,
                             ),
                           ),
                         ),
@@ -125,7 +137,7 @@ class _FinishPageState extends State<FinishPage> {
                             'Score',
                             style: TextStyle(
                               fontSize: 23,
-                              color: Colors.white,
+                              color: Colors.blue,
                             ),
                           ),
                         ),
@@ -142,7 +154,7 @@ class _FinishPageState extends State<FinishPage> {
                                   ' ' + scorelist[index].userName,
                                   style: TextStyle(
                                     fontSize: 20,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],
@@ -156,7 +168,7 @@ class _FinishPageState extends State<FinishPage> {
                                   scorelist[index].score.toString(),
                                   style: TextStyle(
                                     fontSize: 20,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 if (index == 0)
@@ -179,7 +191,6 @@ class _FinishPageState extends State<FinishPage> {
                     ).toList(),
                   ),
                 ),
-                color: Colors.blue,
               ),
             ),
           ],

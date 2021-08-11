@@ -47,8 +47,8 @@ class _SplashPageState extends State<SplashPage> {
               ),
             ),
             Center(
-              child: SvgPicture.asset(
-                ImagesName.helpTxtIcon,
+              child: Image.asset(
+                ImagesName.logoIcon,
               ),
             ),
           ],

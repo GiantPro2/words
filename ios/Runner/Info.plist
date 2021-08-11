@@ -43,5 +43,12 @@
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to access to the microphone to record</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+		<string>tel</string>
+		<string>mailto</string>
+	</array> 
 </dict>
 </plist>

@@ -7,7 +7,7 @@ import 'package:words/view/splash_page.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+   
   runApp(MyApp());
 }
 
