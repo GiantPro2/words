@@ -19,7 +19,7 @@ dependencies:
   #firebase_image: ^1.0.1
   firebase_image:
     git:
-      url: git://github.com/blinkin/firebase_image.git
+      url: https://github.com/blinkin/firebase_image.git
       ref: issue37_fix
   record: ^3.0.0
   sqflite: ^2.0.0+3

@@ -140,7 +140,7 @@ packages:
       path: "."
       ref: issue37_fix
       resolved-ref: "7c223108da3e67fb0386b4856a662544be84ab98"
-      url: "git://github.com/blinkin/firebase_image.git"
+      url: "https://github.com/blinkin/firebase_image.git"
     source: git
     version: "1.0.1+1"
   firebase_storage:
@@ -250,7 +250,7 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.7.0"
   path:
     dependency: "direct main"
     description:

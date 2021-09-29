@@ -26,7 +26,7 @@ apply plugin: 'com.google.gms.google-services' //firestore
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -53,6 +53,7 @@ android {
 //firestore
 dependencies {
   implementation 'com.android.support:multidex:1.0.3'
+  implementation "androidx.core:core-ktx:1.7.0-beta01" 
 }
 //firestore
 flutter {
