@@ -4,10 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:words/view_model/main_page_model.dart';
 import 'package:words/view/splash_page.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
-   
+  // disable landscape
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(MyApp());
 }
 

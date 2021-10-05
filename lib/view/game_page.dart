@@ -28,7 +28,7 @@ class GamePage extends StatefulWidget {
   final selectedPlayers;
   // final void Function(String path) onStop;
 
-  GamePage({Key? key, @required this.selectedPlayers}) : super(key: key);
+  GamePage({Key? key, required this.selectedPlayers}) : super(key: key);
   @override
   _GamePageState createState() => _GamePageState();
 }
@@ -586,26 +586,28 @@ class _GamePageState extends State<GamePage> {
               delegate: SliverChildListDelegate(
                 <Widget>[
                   SizedBox(height: hp(3)),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          height: hp(10),
-                          width: wp(10),
-                          child: Lottie.asset(
-                              'assets/lotte/rounded-square-spin-loading.json'),
-                        ),
-                        Text(
-                          ' Round $current_round',
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.yellow,
-                            fontWeight: FontWeight.bold,
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            height: hp(10),
+                            width: wp(10),
+                            child: Lottie.asset(
+                                'assets/lotte/rounded-square-spin-loading.json'),
                           ),
-                        ),
-                      ],
+                          Text(
+                            ' Round $current_round',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.yellow,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ]),
                   Center(
                     child: AnimatedButton(
                       child: Padding(
@@ -770,121 +772,50 @@ class _GamePageState extends State<GamePage> {
                     ),
                   ),
                   SizedBox(height: hp(2)),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: wp(50),
-                          child: TextField(
-                            controller: scoreTextControllor,
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                            style: TextStyle(
-                              fontSize: 20,
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: wp(50),
+                            child: TextField(
+                              controller: scoreTextControllor,
+                              keyboardType: TextInputType.number,
+                              obscureText: false,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
                           ),
-                        ),
-                        AnimatedButton(
-                          child: Padding(
-                            padding: const EdgeInsets.all(1),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(
-                                  'Mark',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          onPressed: () {
-                            if (scoreTextControllor.text.length > 0) {
-                              Alert(
-                                context: context,
-                                type: AlertType.warning,
-                                title: "Confirm ALERT",
-                                desc: "Would you like to mark?",
-                                buttons: [
-                                  DialogButton(
-                                    child: Text(
-                                      "No",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
+                          AnimatedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(1),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    'Mark',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
                                     ),
-                                    onPressed: () => Navigator.pop(context),
-                                    gradient: LinearGradient(colors: [
-                                      Color.fromRGBO(116, 116, 191, 1.0),
-                                      Color.fromRGBO(52, 138, 199, 1.0),
-                                    ]),
                                   ),
-                                  DialogButton(
-                                    child: Text(
-                                      "OK",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        int new_score =
-                                            int.parse(scoreTextControllor.text);
-                                        new_score = new_score +
-                                            scorelist[current_palyer_index]
-                                                .score;
-                                        ScoreModel newScore = ScoreModel(
-                                          userId: selectedPlayers[
-                                                  current_palyer_index]
-                                              .id,
-                                          userName: selectedPlayers[
-                                                  current_palyer_index]
-                                              .name,
-                                          score: new_score,
-                                        );
-                                        scorelist[current_palyer_index] =
-                                            newScore;
-                                        scoreTextControllor.clear();
-                                      });
-                                      Alert(
-                                        context: context,
-                                        type: AlertType.success,
-                                        title: "Success",
-                                        desc: "Marked successfully.",
-                                        buttons: [
-                                          DialogButton(
-                                            child: Text(
-                                              "OK",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              setState(() {});
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                            },
-                                            width: 120,
-                                            color: Colors.green,
-                                          )
-                                        ],
-                                      ).show();
-                                    },
-                                    color: Color.fromRGBO(0, 179, 134, 1.0),
-                                  )
                                 ],
-                              ).show();
-                            } else {
-                              Alert(
+                              ),
+                            ),
+                            onPressed: () {
+                              if (scoreTextControllor.text.length > 0) {
+                                Alert(
                                   context: context,
                                   type: AlertType.warning,
-                                  title: "Warning",
-                                  desc: "Insert score first!",
+                                  title: "Confirm ALERT",
+                                  desc: "Would you like to mark?",
                                   buttons: [
                                     DialogButton(
                                       child: Text(
-                                        "OK",
+                                        "No",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 18),
                                       ),
@@ -894,17 +825,92 @@ class _GamePageState extends State<GamePage> {
                                         Color.fromRGBO(52, 138, 199, 1.0),
                                       ]),
                                     ),
-                                  ]).show();
-                            }
-                          },
-                          shadowDegree: ShadowDegree.light,
-                          color: Colors.green,
-                          width: 100,
-                          height: 40,
-                        ),
-                      ],
+                                    DialogButton(
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          int new_score = int.parse(
+                                              scoreTextControllor.text);
+                                          new_score = new_score +
+                                              scorelist[current_palyer_index]
+                                                  .score;
+                                          ScoreModel newScore = ScoreModel(
+                                            userId: selectedPlayers[
+                                                    current_palyer_index]
+                                                .id,
+                                            userName: selectedPlayers[
+                                                    current_palyer_index]
+                                                .name,
+                                            score: new_score,
+                                          );
+                                          scorelist[current_palyer_index] =
+                                              newScore;
+                                          scoreTextControllor.clear();
+                                        });
+                                        Alert(
+                                          context: context,
+                                          type: AlertType.success,
+                                          title: "Success",
+                                          desc: "Marked successfully.",
+                                          buttons: [
+                                            DialogButton(
+                                              child: Text(
+                                                "OK",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                              onPressed: () {
+                                                setState(() {});
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                              width: 120,
+                                              color: Colors.green,
+                                            )
+                                          ],
+                                        ).show();
+                                      },
+                                      color: Color.fromRGBO(0, 179, 134, 1.0),
+                                    )
+                                  ],
+                                ).show();
+                              } else {
+                                Alert(
+                                    context: context,
+                                    type: AlertType.warning,
+                                    title: "Warning",
+                                    desc: "Insert score first!",
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18),
+                                        ),
+                                        onPressed: () => Navigator.pop(context),
+                                        gradient: LinearGradient(colors: [
+                                          Color.fromRGBO(116, 116, 191, 1.0),
+                                          Color.fromRGBO(52, 138, 199, 1.0),
+                                        ]),
+                                      ),
+                                    ]).show();
+                              }
+                            },
+                            shadowDegree: ShadowDegree.light,
+                            color: Colors.green,
+                            width: 100,
+                            height: 40,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ]),
                   SizedBox(height: hp(3)),
                   Center(
                     child: AnimatedButton(

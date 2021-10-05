@@ -13,7 +13,7 @@ import 'package:words/const/images_name.dart';
 
 class FinishPage extends StatefulWidget {
   final scorelist;
-  FinishPage({Key? key, @required this.scorelist}) : super(key: key);
+  FinishPage({Key? key, required this.scorelist}) : super(key: key);
   @override
   _FinishPageState createState() => _FinishPageState();
 }
